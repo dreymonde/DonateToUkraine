@@ -1,6 +1,6 @@
 # DonateToUkraine <img src="_Media/flag.png" height="20">
 
-<img src="_Media/ukraine.png" height="40">
+<img src="_Media/ukraine.png" height="70">
 
 > **DonateToUkraine** uses monobank's official donation service. You can always donate on your own: [https://uahelp.monobank.ua](https://uahelp.monobank.ua)
 
