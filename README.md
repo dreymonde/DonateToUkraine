@@ -89,6 +89,12 @@ let totalDonatedUSD = DonateToUkraine.totalDonated.approxUSD
 
 Note: donation history uses `UserDefaults` and is cleared on app uninstall.
 
+## Apps that use "DonateToUkraine"
+
+- [F1 Flying Lap](https://f1flyinglap.com)
+- ...
+- [Add yours!](https://github.com/dreymonde/DonateToUkraine/edit/main/README.md)
+
 ## Installation
 
 ### Swift Package Manager
