@@ -25,6 +25,7 @@ public final class DonateToUkraineButton: UIButton {
 
     public var didOpen: () -> Void = { }
     public var completion: (UkraineDonation) -> Void = { _ in }
+    private var style: Style
 
     public struct Style {
         public var backgroundColor: UIColor
@@ -77,12 +78,14 @@ public final class DonateToUkraineButton: UIButton {
 
     @available(*, deprecated)
     public override init(frame: CGRect) {
+        self.style = .automatic
         super.init(frame: frame)
         setup(style: .automatic, variant: .donate)
     }
 
     public convenience init(style: Style, variant: Variant = .donate) {
         self.init(type: .system)
+        self.style = style
         setup(style: style, variant: variant)
     }
 
@@ -107,6 +110,7 @@ public final class DonateToUkraineButton: UIButton {
     }
 
     required public init?(coder: NSCoder) {
+        self.style = .automatic
         super.init(coder: coder)
         self.setup(style: .automatic, variant: .donate)
     }
@@ -125,6 +129,14 @@ public final class DonateToUkraineButton: UIButton {
         didOpen()
         let donateVC = DonateToUkraineViewController(completion: completion)
         contextViewController.present(donateVC, animated: true)
+    }
+
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if style.borderColor != .clear {
+            layer.borderColor = style.borderColor.cgColor
+            layer.borderWidth = 1
+        }
     }
 }
 

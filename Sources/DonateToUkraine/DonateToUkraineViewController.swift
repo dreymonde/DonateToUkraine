@@ -113,11 +113,7 @@ public final class DonateToUkraineViewController: UIViewController {
     
     @objc
     func didPressDone() {
-        close(completion: {
-            #if DEBUG
-            self.finish(donation: .init(amount: UkraineDonation.AmountUAH(rawValue: "150")!, receiptId: "test-receipt", donatedAt: Date()))
-            #endif
-        })
+        self.close { }
     }
 
     func close(completion: @escaping () -> Void) {
