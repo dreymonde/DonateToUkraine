@@ -177,9 +177,8 @@ extension DonateToUkraineViewController: WKNavigationDelegate {
                 decisionHandler(.cancel)
                 return
             }
-        } else {
-            decisionHandler(.allow)
         }
+        decisionHandler(.allow)
     }
     
     public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {

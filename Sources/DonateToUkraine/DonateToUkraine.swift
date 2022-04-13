@@ -20,7 +20,7 @@ extension DonateToUkraine {
         !donationReceipts.isEmpty
     }
 
-    static public var totalDonatedUAH: UkraineDonation.AmountUAH {
+    static public var totalDonated: UkraineDonation.AmountUAH {
         return .init(uah: UkraineDonationTracking._totalDonatedUAH)
     }
 
