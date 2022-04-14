@@ -100,3 +100,16 @@ Note: donation history uses `UserDefaults` and is cleared on app uninstall.
 ### Swift Package Manager
 1. Click File &rarr; Swift Packages &rarr; Add Package Dependency.
 2. Enter `http://github.com/dreymonde/DonateToUkraine.git`.
+
+## What happens to the money?
+
+**DonateToUkraine** uses an [official donation service](https://uahelp.monobank.ua) created by [Monobank](https://www.monobank.ua/?lang=en), one of the largest and most trusted banks in Ukraine. The service was endorsed by the Ukrainian government [here](https://twitter.com/ng_ukraine/status/1498058822740553733).
+
+As you can read on the [https://uahelp.monobank.ua](https://uahelp.monobank.ua) webpage, every donation is transferred directly to a special account opened by the National Bank of Ukraine to raise funds for Ukraine’s Armed Forces. Official announcement of the account: [here](https://bank.gov.ua/en/news/all/natsionalniy-bank-vidkriv-spetsrahunok-dlya-zboru-koshtiv-na-potrebi-armiyi).
+
+NBU regularly reports on the money it raises, and how it's being distributed. An example of such report [here](https://bank.gov.ua/en/news/all/nbu-pererahuvav-na-potrebi-viyskovih-ponad-1496-mlrd-grn-na-spetsrahunku-zalishilosya-58-mln-grn).
+
+Keep in mind that weapons are negotiated between governments on a higher level and are funded / purchased through different channels. The vast majority of donations made to the official NBU account goes towards support payments for soldiers and their families, as well as local purchases of medical supplies, protective gear etc.
+
+If you have any questions regarding the donations, don't hesitate to reach out to me at [oleg@dreyman.dev](mailto:oleg@dreyman.dev).
+
