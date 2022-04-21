@@ -27,5 +27,7 @@ extension DonateToUkraine {
     static public var donationReceipts: [UkraineDonation] {
         UkraineDonationTracking._donationReceipts
     }
+
+    static public var isAnonymousDonationReportingDisabled = false
 }
 

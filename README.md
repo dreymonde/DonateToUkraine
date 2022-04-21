@@ -1,5 +1,7 @@
 # DonateToUkraine <img src="_Media/flag.png" height="20">
 
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdreymonde%2FDonateToUkraine%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/dreymonde/DonateToUkraine) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdreymonde%2FDonateToUkraine%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/dreymonde/DonateToUkraine)
+
 <img src="_Media/ukraine.png" height="70">
 
 > **DonateToUkraine** uses monobank's official donation service. You can always donate on your own: [https://uahelp.monobank.ua](https://uahelp.monobank.ua)
@@ -88,6 +90,12 @@ let totalDonatedUSD = DonateToUkraine.totalDonated.approxUSD
 ```
 
 Note: donation history uses `UserDefaults` and is cleared on app uninstall.
+
+For transparency and reporting purposes, **DonateToUkraine** will report every successful donation to a dedicated service. The report consists only of receipt ID and donation amount, no other information is sent. However, if you want to opt out, add this line in your `AppDelegate.swift` or similar:
+
+```swift
+DonateToUkraine.isAnonymousDonationReportingDisabled = true
+``` 
 
 ## Apps that use "DonateToUkraine"
 

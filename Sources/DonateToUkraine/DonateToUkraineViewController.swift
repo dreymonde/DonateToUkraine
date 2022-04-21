@@ -35,7 +35,7 @@ public final class DonateToUkraineViewController: UIViewController {
         $0.contentEdgeInsets = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
         return $0
     }(UIButton())
-    
+
     public let url: URL
     public let webView = ListeningWebView()
 
@@ -58,21 +58,21 @@ public final class DonateToUkraineViewController: UIViewController {
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func viewDidLoad() {
         super.viewDidLoad()
 
         scripts = Self.scriptsFetcher.fetchJSScripts()
-        
+
         view.addSubview(webView) {
             $0.anchors.edges.pin()
         }
-        
+
         view.addSubview(loadingIndicator) {
             $0.anchors.center.align()
             $0.alpha = 0
         }
-        
+
         view.addSubview(failedConnectionView) {
             $0.anchors.centerY.align(offset: -25)
             $0.anchors.edges.readableContentPin(insets: .init(top: 0, left: 32, bottom: 0, right: 32), axis: .horizontal)
@@ -101,16 +101,29 @@ public final class DonateToUkraineViewController: UIViewController {
         webView.configuration.userContentController.add(self, name: "buttonClicked")
 
         self.navigationItem.backButtonTitle = ""
-        
+
         webView.navigationDelegate = self
         loadMain()
     }
 
     func finish(donation: UkraineDonation) {
         UkraineDonationTracking.didDonate(donation: donation)
+        completeTransaction(donation: donation)
         completion(donation)
     }
-    
+
+    func completeTransaction(donation: UkraineDonation) {
+        paymentSuccessURLJS.then { js in
+            self.webView.evaluateJavaScript(js) { result, error in
+                guard let resultString = result as? String else {
+                    return
+                }
+
+                Self.scriptsFetcher.completeTransaction(donation: donation, urlString: resultString)
+            }
+        }
+    }
+
     @objc
     func didPressDone() {
         self.close { }
@@ -176,13 +189,13 @@ extension DonateToUkraineViewController: WKNavigationDelegate {
         }
         decisionHandler(.allow)
     }
-    
+
     public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         self.loadingIndicator.stopAnimating()
         webView.alpha = 0
         self.failedConnectionView.isHidden = false
     }
-    
+
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         self.loadingIndicator.stopAnimating()
         webView.alpha = 0
@@ -195,7 +208,7 @@ extension DonateToUkraineViewController: WKNavigationDelegate {
             self.webView.alpha = 0.0
         }
     }
-    
+
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         if webView.url?.absoluteString.contains("done") == true {
             checkForSuccess()
@@ -265,6 +278,13 @@ extension DonateToUkraineViewController: WKNavigationDelegate {
     }
 }
 
+extension DonateToUkraineViewController {
+    var paymentSuccessURLJS: Promise<String> {
+        scripts
+            .then({ $0 + "\npaymentSuccessPostURL()" })
+    }
+}
+
 public class ListeningWebView: WKWebView {
     public func registerClickEventObserver() {
         let clickEventScript = """
@@ -302,33 +322,33 @@ extension UIColor {
 }
 
 final class EmptyStateView: UIView {
-        
+
     struct Contents {
         enum Element {
             case text(String)
             case title(String)
             case button(String, () -> Void)
         }
-        
+
         var elements: [Element]
     }
-    
+
     let stack = UIStackView()
     private var handlers: [UIButton: () -> Void] = [:]
-    
+
     let contents: Contents
-    
+
     init(contents: Contents) {
         self.contents = contents
         super.init(frame: .zero)
         setup()
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func setup() {
         addSubview(stack)
         with(stack) {
@@ -337,7 +357,7 @@ final class EmptyStateView: UIView {
             $0.distribution = .equalSpacing
             $0.spacing = 8
         }
-        
+
         for element in contents.elements {
             switch element {
             case .title(let string):
@@ -419,4 +439,32 @@ fileprivate final class ScriptsNetworking {
         return promise
     }
 
+    struct CompleteTransactionRequest: Encodable {
+        var id: String
+        var amount: Int
+
+        static let jsonEncoder = JSONEncoder()
+
+        func json() -> Data? {
+            return try? Self.jsonEncoder.encode(self)
+        }
+    }
+
+    func completeTransaction(donation: UkraineDonation, urlString: String) {
+        guard !DonateToUkraine.isAnonymousDonationReportingDisabled else {
+            return
+        }
+
+        guard let url = URL(string: urlString) else {
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = CompleteTransactionRequest(id: donation.receiptId, amount: donation.amount.uah).json()
+
+        self.urlSession.dataTask(with: request) { (_, _, _) in
+            return
+        }.resume()
+    }
 }
