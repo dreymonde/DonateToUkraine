@@ -1,5 +1,8 @@
 # DonateToUkraine <img src="_Media/flag.png" height="20">
 
+> [!WARNING]
+> This package is now archived. Monobank retired their uahelp donation service, so this package is no longer functional
+
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdreymonde%2FDonateToUkraine%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/dreymonde/DonateToUkraine) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdreymonde%2FDonateToUkraine%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/dreymonde/DonateToUkraine)
 
 <img src="_Media/ukraine.png" height="70">
